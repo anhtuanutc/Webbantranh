@@ -1,0 +1,771 @@
+﻿
+@{
+    ViewBag.Title = "product";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Laystate();
+            Layproducer();
+            Laycategory();
+            GetAll();
+        });
+        function Laystate() {
+            $.ajax({
+                url: 'https://localhost:44386/laystate',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        table = table + '<hr>'
+                        table = table + '<option value="' + reponse[i].state_id + '">' + reponse[i].state_name + '</option>'
+                    }
+                    document.getElementById('value1').innerHTML = table;
+                    document.getElementById('value4').innerHTML = table;
+                },
+                fail: function (response) { }
+            });
+        }
+        function Layproducer() {
+            $.ajax({
+                url: 'https://localhost:44386/layproducerr',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        table = table + '<hr>'
+                        table = table + '<option value="' + reponse[i].producer_id + '">' + reponse[i].producer_name + '</option>'
+                    }
+                    document.getElementById('value2').innerHTML = table;
+                    document.getElementById('value5').innerHTML = table;
+                },
+                fail: function (response) { }
+            });
+        }
+        function Laycategory() {
+            $.ajax({
+                url: 'https://localhost:44386/laycategory',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        table = table + '<hr>'
+                        table = table + '<option value="' + reponse[i].category_id + '">' + reponse[i].category_name + '</option>'
+                    }
+                    document.getElementById('value3').innerHTML = table;
+                    document.getElementById('value6').innerHTML = table;
+                },
+                fail: function (response) { }
+            });
+        }
+        function LaytheomaTB(product_id) {
+            $.ajax({
+                url: ' https://localhost:44386/Layproduct/' + product_id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (res) {
+                    alert("Lỗi mã");
+                },
+                success: function (res) {
+                        $("#product_id1").val(res.product_id),
+                        $("#product_name1").val(res.product_name),
+                        $("#product_alias1").val(res.product_alias),
+                        $("#product_description1").val(res.product_description),
+                        $("#product_content1").val(res.product_content),
+                        $("#product_img1").val(res.product_img),
+                        $("#product_sub_img1").val(res.product_sub_img),
+                        //$("#product_isHot1").val(res.product_isHot),
+                        //$("#product_isNew1").val(res.product_isNew),
+                        //$("#product_isSale1").val(res.product_isSale),
+                        //$("#product_CreatedAt1").val(res.product_CreatedAt),
+                        //$("#product_UpdatedAt1").val(res.product_UpdatedAt),
+                        //$("#product_code1").val(res.product_code),
+                        //$("#product_package1").val(res.product_package),
+                        //$("#product_delivery1").val(res.product_delivery),
+                        //$("#product_delivery_time1").val(res.product_delivery_time),
+                        //$("#product_payment1").val(res.product_payment),
+                        //$("#product_payment_type1").val(res.product_payment_type),
+                        //$("#product_sub_info1").val(res.product_sub_info),
+                        $("#value1").val(res.state),                    
+                        //$("#title_seo1").val(res.title_seo),
+                        //$("#des_seo1").val(res.des_seo),
+                        //$("#friendly_url1").val(res.friendly_url),
+                        //$("#keyword1").val(res.keyword),
+                        //$("#product_material1").val(res.product_material),
+                        //$("#product_shape1").val(res.product_shape),
+                            $("#value2").val(res.product_producer),
+                            $("#value3").val(res.category_id)
+                },
+                fail: function (response) { }
+            })
+        }
+        function GetAll() {
+            $.ajax({
+                url: ' https://localhost:44386/Layproduct/',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        let STT = i + 1;
+                        table = table + '<tr>'
+                        table = table + '<td>' + STT + '</td>';
+                        table = table + '<td>' + reponse[i].product_id + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].product_name + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].product_alias + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].product_description + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].product_content + '</td>';
+                        table = table + '<td> <div ><img src="' + reponse[i].product_img + '" style="width : 38px; height : 38px " /></div> </td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].product_sub_img + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_isHot + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_isNew + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_isSale + '</td>';
+
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_CreatedAt + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_UpdatedAt + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_code + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_package + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_delivery + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_delivery_time + '</td>';
+
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_payment + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_payment_type + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_sub_info + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].state + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].title_seo + '</td>';
+
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].friendly_url + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].keyword + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_material + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_shape + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].product_producer + '</td>';
+                        //table = table + '<td style="max-width : 200px">' + reponse[i].category_id + '</td>';                                             
+                        table = table + '<td style="max-width : 150px" > <button type="button" class="btn btn-danger" onclick="HienThiSua(),LaytheomaTB(\'' + reponse[i].product_id + '\')">Sửa</button></td>';
+                        table = table + '<tr>'
+
+                        document.getElementById('data').innerHTML = table;
+                    }
+                },
+                fail: function (response) { }
+            })
+        }
+        function addProduct() {
+            var url = 'https://localhost:44386/api/Order_product_producer_API/?product_id=' +
+                $("input[name='product_id2']").val()
+                + '&product_name=' + $("input[name='product_name2']").val()
+                + '&product_alias=' + $("input[name='product_alias2']").val()
+                + '&product_description=' + $("input[name='product_description2']").val()
+                + '&product_content=' + $("input[name='product_content2']").val()
+                + '&product_img=' + $("input[name='product_img2']").val()
+                + '&product_sub_img=' + $("input[name='product_sub_img2']").val()
+                //+ '&product_isHot=' + $("input[name='product_isHot2']").val()
+                //+ '&product_isNew=' + $("input[name='product_isNew2']").val()
+                //+ '&product_isSale=' + $("input[name='product_isSale2']").val()
+                //+ '&product_CreatedAt=' + $("input[name='product_CreatedAt2']").val()
+                //+ '&product_UpdatedAt=' + $("input[name='product_UpdatedAt2']").val()
+                //+ '&product_code=' + $("input[name='product_code2']").val()
+                //+ '&product_package=' + $("input[name='product_package2']").val()
+                //+ '&product_delivery=' + $("input[name='product_delivery2']").val()
+                //+ '&product_delivery_time=' + $("input[name='product_delivery_time2']").val()
+                //+ '&product_payment=' + $("input[name='product_payment2']").val()
+                //+ '&product_payment_type=' + $("input[name='product_payment_type2']").val()
+                //+ '&product_sub_info=' + $("input[name='product_sub_info2']").val()
+                + '&state=' + $("select[name='a']").val()
+                //+ '&title_seo=' + $("input[name='title_seo2']").val()
+                //+ '&friendly_url=' + $("input[name='friendly_url2']").val()
+                //+ '&keyword=' + $("input[name='keyword2']").val()
+                //+ '&product_material=' + $("input[name='product_material2']").val()
+                //+ '&product_shape=' + $("input[name='product_shape2']").val()
+                + '&product_producer=' + $("select[name='b']").val()
+                + '&category_id=' + $("select[name='c']").val();
+            $.ajax({
+                url: url,
+                method: 'Post',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Thêm mới không thành công");
+                },
+                success: function (reponse) {
+                    alert("Thêm mới thành công  ");
+                    window.location.href = '@Url.Action("product", "Order_product_producer")';
+                }
+            });
+        }
+        function editProduct() {
+            var url = 'https://localhost:44386/api/Order_product_producer_API/?product_id=' +
+                $("input[name='product_id1']").val()
+                + '&product_name=' + $("input[name='product_name1']").val()
+                + '&product_alias=' + $("input[name='product_alias1']").val()
+                + '&product_description=' + $("input[name='product_description1']").val()
+                + '&product_content=' + $("input[name='product_content']").val()
+                + '&product_img=' + $("input[name='product_img1']").val()
+                + '&product_sub_img=' + $("input[name='product_sub_img1']").val()
+                //+ '&product_isHot=' + $("input[name='product_isHot1']").val()
+                //+ '&product_isNew=' + $("input[name='product_isNew1']").val()
+                //+ '&product_isSale=' + $("input[name='product_isSale1']").val()
+                //+ '&product_CreatedAt=' + $("input[name='product_CreatedAt1']").val()
+                //+ '&product_UpdatedAt=' + $("input[name='product_UpdatedAt1']").val()
+                //+ '&product_code=' + $("input[name='product_code1']").val()
+                //+ '&product_package=' + $("input[name='product_package1']").val()
+                //+ '&product_delivery=' + $("input[name='product_delivery1']").val()
+                //+ '&product_delivery_time=' + $("input[name='product_delivery_time1']").val()
+                //+ '&product_payment=' + $("input[name='product_payment1']").val()
+                //+ '&product_payment_type=' + $("input[name='product_payment_type1']").val()
+                //+ '&product_sub_info=' + $("input[name='product_sub_info1']").val()
+                + '&state=' + $("select[name='x']").val()
+                //+ '&title_seo=' + $("input[name='title_seo1']").val()
+                //+ '&friendly_url=' + $("input[name='friendly_url1']").val()
+                //+ '&keyword=' + $("input[name='keyword1']").val()
+                //+ '&product_material=' + $("input[name='product_material1']").val()
+                //+ '&product_shape=' + $("input[name='product_shape1']").val()
+                + '&product_producer=' + $("select[name='y']").val()
+                + '&category_id=' + $("select[name='z']").val();
+            $.ajax({
+                url: url,
+                method: 'PUT',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Sửa không thành công  ");
+                },
+                success: function (reponse) {
+                    alert("Sửa thành công  ");
+                    window.location.href = '@Url.Action("product", "Order_product_producer")';
+                }
+            });
+        }
+        function HienThiSua() {
+            document.getElementById("Edit").style.display = 'inline';
+            document.getElementById("Tim").style.display = 'none';
+            document.getElementById("Add").style.display = 'none';
+        }
+        function HienThiAdd() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'none';
+            document.getElementById("Add").style.display = 'inline';
+        }
+        function HienThi() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'inline';
+            document.getElementById("Add").style.display = 'none';
+        }
+    </script>
+}
+<div id="Tim" class="container">
+    <div class="container" style="width:100%;">
+        <h1 style="text-align:center">Table Product</h1>
+        <button class="btn btn-info" style="float: left; margin-bottom: 20px;" onclick="HienThiAdd();">Add Product</button></a>
+        <br>
+        <table class="table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>product_id</th>
+                    <th>product_name</th>
+                    <th>product_alias</th>
+                    <th>product_description</th>
+
+                    <th>product_content</th>
+                    <th>product_img</th>
+                    <th>product_sub_img</th>
+                    <th>Trang thai</th>
+                    @*<th>product_isHot</th>
+
+                    <th>product_isNew</th>
+                    <th>product_isSale</th>
+                    <th>product_CreatedAt</th>
+                    <th>product_UpdatedAt</th>
+
+                    <th>product_code</th>
+                    <th>product_package</th>
+                    <th>product_delivery</th>
+                    <th>product_delivery_time</th>
+
+                    <th>product_payment</th>
+                    <th>product_payment_type</th>
+                    <th>product_sub_info</th>
+                    <th>state</th>
+
+                    <th>title_seo</th>
+                    <th>des_seo</th>
+                    <th>friendly_url</th>
+                    <th>keyword</th>
+
+                    <th>product_material</th>
+                    <th>product_shape</th>
+                    <th>product_producer</th>
+                    <th>category_id</th>*@
+                </tr>
+            </thead>
+            <tbody id="data">
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container" id="Edit" style="display:none">
+    <table style="border:none">
+        <tbody>
+            <tr>
+                <td>product_id: </td>
+                <td>
+                    <input id="product_id1" type="text" name="product_id1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>product_name: </td>
+                <td>
+                    <input id="product_name1" type="text" name="product_name1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>product_alias: </td>
+                <td>
+                    <input id="product_alias1" type="text" name="product_alias1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>product_description: </td>
+                <td>
+                    <input id="product_description1" type="text" name="product_description1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>product_content: </td>
+                <td>
+                    <input id="product_content1" type="text" name="product_content1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>product_img: </td>
+                <td>
+                    <input id="product_img1" type="text" name="product_img1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>product_sub_img: </td>
+                <td>
+                    <input id="product_sub_img1" type="text" name="product_sub_img1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            @*<tr>
+             <td>product_isHot: </td>
+             <td>
+                 <input id="product_isHot1" type="text" name="product_isHot1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+
+         <tr>
+             <td>product_isNew: </td>
+             <td>
+                 <input id="product_isNew1" type="text" name="product_isNew1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+         <tr>
+             <td>product_isSale: </td>
+             <td>
+                 <input id="product_isSale1" type="text" name="product_isSale1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+
+         <tr>
+             <td>product_CreatedAt: </td>
+             <td>
+                 <input id="product_CreatedAt1" type="text" name="product_CreatedAt1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+         <tr>
+             <td>product_UpdatedAt: </td>
+             <td>
+                 <input id="product_UpdatedAt1" type="text" name="product_UpdatedAt1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+
+         <tr>
+             <td>product_code: </td>
+             <td>
+                 <input id="product_code1" type="text" name="product_code1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+         <tr>
+             <td>product_package: </td>
+             <td>
+                 <input id="product_package1" type="text" name="product_package1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+
+         <tr>
+             <td>product_delivery: </td>
+             <td>
+                 <input id="product_delivery1" type="text" name="product_delivery1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+         <tr>
+             <td>product_delivery_time: </td>
+             <td>
+                 <input id="product_delivery_time1" type="text" name="product_delivery_time1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+
+         <tr>
+             <td>product_payment: </td>
+             <td>
+                 <input id="product_payment1" type="text" name="product_payment1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+         <tr>
+             <td>product_payment_type: </td>
+             <td>
+                 <input id="product_payment_type1" type="text" name="product_payment_type1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+
+         <tr>
+             <td>product_sub_info: </td>
+             <td>
+                 <input id="product_sub_info1" type="text" name="product_sub_info1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+        <tr>
+             <td>state: </td>
+             <td>
+                 <select style="margin-bottom: 10px; border-radius: 2px; width: 280px" id="value1" name="stateEdit" onchange="GetSP(value);">
+                 </select>
+             </td>
+         </tr>
+
+         <tr>
+             <td>title_seo: </td>
+             <td>
+                 <input id="title_seo1" type="text" name="title_seo1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+         <tr>
+             <td>des_seo: </td>
+             <td>
+                 <input id="des_seo1" type="text" name="des_seo1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+
+         <tr>
+             <td>friendly_url: </td>
+             <td>
+                 <input id="friendly_url1" type="text" name="friendly_url1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+         <tr>
+             <td>keyword: </td>
+             <td>
+                 <input id="keyword1" type="text" name="keyword1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+
+         <tr>
+             <td>product_material: </td>
+             <td>
+                 <input id="product_material1" type="text" name="product_material1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+         <tr>
+             <td>product_shape: </td>
+             <td>
+                 <input id="product_shape1" type="text" name="product_shape1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+
+         <tr>
+             <td>product_producer: </td>
+             <td>
+                 <input id="product_producer1" type="text" name="product_producer1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>
+         <tr>
+             <td>category_id: </td>
+             <td>
+                 <input id="category_id1" type="text" name="category_id1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+             </td>
+         </tr>*@
+            <tr>
+                <td>state: </td>
+                <td>
+                    <select style="margin-bottom: 10px; border-radius: 2px; width: 280px" id="value1" name="a" onchange="GetSP(value);">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>producer: </td>
+                <td>
+                    <select style="margin-bottom: 10px; border-radius: 2px; width: 280px" id="value2" name="b" onchange="GetSP(value);">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>category: </td>
+                <td>
+                    <select style="margin-bottom: 10px; border-radius: 2px; width: 280px" id="value3" name="c" onchange="GetSP(value);">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="display: inline-flex">
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px; margin-right: 10px" onclick="HienThi()">Quay lại</button>
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px;"
+                            onclick="editProduct();">
+                        Cập nhật
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container" id="Add" style="display:none">
+    <table style="border:none">
+        <tbody>
+            <tr>
+                <td>product_id: </td>
+                <td>
+                    <input id="product_id2" type="text" name="product_id2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>product_name: </td>
+                <td>
+                    <input id="product_name2" type="text" name="product_name2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>product_alias: </td>
+                <td>
+                    <input id="product_alias2" type="text" name="product_alias2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>product_description: </td>
+                <td>
+                    <input id="product_description2" type="text" name="product_description2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>product_content: </td>
+                <td>
+                    <input id="product_content2" type="text" name="product_content2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>product_img: </td>
+                <td>
+                    <input id="product_img2" type="text" name="product_img2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>product_sub_img: </td>
+                <td>
+                    <input id="product_sub_img2" type="text" name="product_sub_img2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            @*<tr>
+            <td>product_isHot: </td>
+            <td>
+                <input id="product_isHot2" type="text" name="product_isHot2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>product_isNew: </td>
+            <td>
+                <input id="product_isNew2" type="text" name="product_isNew2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>product_isSale: </td>
+            <td>
+                <input id="product_isSale2" type="text" name="product_isSale2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>product_CreatedAt: </td>
+            <td>
+                <input id="product_CreatedAt2" type="text" name="product_CreatedAt2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>product_UpdatedAt: </td>
+            <td>
+                <input id="product_UpdatedAt2" type="text" name="product_UpdatedAt2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>product_code: </td>
+            <td>
+                <input id="product_code2" type="text" name="product_code2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>product_package: </td>
+            <td>
+                <input id="product_package2" type="text" name="product_package2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>product_delivery: </td>
+            <td>
+                <input id="product_delivery2" type="text" name="product_delivery2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>product_delivery_time: </td>
+            <td>
+                <input id="product_delivery_time2" type="text" name="product_delivery_time2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>product_payment: </td>
+            <td>
+                <input id="product_payment2" type="text" name="product_payment2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>product_payment_type: </td>
+            <td>
+                <input id="product_payment_type2" type="text" name="product_payment_type2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>product_sub_info: </td>
+            <td>
+                <input id="product_sub_info2" type="text" name="product_sub_info2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>state: </td>
+            <td>
+                <input id="state2" type="text" name="state2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>title_seo: </td>
+            <td>
+                <input id="title_seo2" type="text" name="title_seo2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>des_seo: </td>
+            <td>
+                <input id="des_seo2" type="text" name="des_seo2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>friendly_url: </td>
+            <td>
+                <input id="friendly_url2" type="text" name="friendly_url2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>keyword: </td>
+            <td>
+                <input id="keyword2" type="text" name="keyword2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>product_material: </td>
+            <td>
+                <input id="product_material2" type="text" name="product_material2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>product_shape: </td>
+            <td>
+                <input id="product_shape2" type="text" name="product_shape2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>product_producer: </td>
+            <td>
+                <input id="product_producer2" type="text" name="product_producer2" style="margin-bottom: 10px; border-radius: 2px; width: 280px"  />
+            </td>
+        </tr>
+        <tr>
+            <td>category_id: </td>
+            <td>
+                <input id="category_id2" type="text" name="category_id2" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+            </td>
+        </tr>*@
+            <tr>
+                <td>state: </td>
+                <td>
+                    <select style="margin-bottom: 10px; border-radius: 2px; width: 280px" id="value4" name="x" onchange="GetSP(value);">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>producer: </td>
+                <td>
+                    <select style="margin-bottom: 10px; border-radius: 2px; width: 280px" id="value5" name="y" onchange="GetSP(value);">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>category: </td>
+                <td>
+                    <select style="margin-bottom: 10px; border-radius: 2px; width: 280px" id="value6" name="z" onchange="GetSP(value);">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @*style="display: inline-flex"*@
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px; margin-right: 10px" onclick="HienThi()">Quay lại</button>
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px;"
+                            onclick="addProduct();">
+                        Thêm mới
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+

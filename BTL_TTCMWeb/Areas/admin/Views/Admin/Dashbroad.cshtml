@@ -1,0 +1,50 @@
+﻿ 
+@{
+    ViewBag.Title = "Dashbroad";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        function GetOrder() {
+            $.ajax({
+                url: 'https://localhost:44386/Dashboard/,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Không");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    if (len == 0) {
+                        table += '<a href="#" class="dropdown-toggle" data-toggle="dropdown">< i class="fa fa-bell-o" ></i ><span class="label label-warning">0</span></a >'
+                        document.getElementById('data').innerHTML = table;
+                    }
+                    else {
+                        table += '<a href="#" class="dropdown-toggle" data-toggle="dropdown">< i class="fa fa-bell-o" ></i >'
+                        table += '<span class="label label-warning">' + len +'</span></a>'
+                        table += '<ul class="dropdown-menu">< li class="header" >Bạn có ' + len + ' đơn hàng mới </li><li><ul class="menu"'
+                        for (var i = 0; i < len; i++) {
+                            table += '<li>'
+
+                            table += '<i class="fa fa-users text-aqua"></i>' + @item.tbl_orderDetail.Sum(x=>x.quantity) +'Sản phẩm: ' +@item.order_total_price +'VNĐ</a></li >'
+                        }
+                        table+='</ul></li><li class="footer"><a href="@Url.Action("Index", "Order")">Xem tất cả</a></li></ul>'
+                        document.getElementById('data').innerHTML = table;
+                    }
+
+                },
+                fail: function (response) { }
+            });
+        }
+
+    </script>
+}
+<div id="data">
+
+</div>
+
+
